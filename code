@@ -1,0 +1,93 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <windows.h>
+void shuffle(int deck[], int array_size);
+int start_deck(int initial[], int size);
+void deal_card(int deck[], int size);
+void first_deal(int deck[],int size);
+
+
+
+int count=0;
+int playsum=0;
+int compsum=0;
+int plycards[10];
+int compcards[10];
+
+
+int main(void)
+    {
+        int deck[52];
+        int plycards[10];
+        int compcards[10];
+
+
+        srand(time(NULL));
+
+
+        
+        shuffle(deck,52);
+
+
+        deal_card(deck,52);
+        getch();
+
+
+    }
+
+int start_deck (int initial[],int size) //initializes the deck
+    {
+        int i;
+
+
+        for (i=0; i<size; i++) //Used to increment 52 cards for deck
+            initial[i]=i;
+    }
+
+
+void shuffle(int deck[], int array_size) //Shuffles deck
+    {
+        int i , j , temp ; //temp used to help shuffle
+
+
+        start_deck(deck,52);
+
+
+        for( i = 0 ; i < array_size ; i ++ )
+            {
+                j = rand() % array_size ; //chooses random number for the array swapping
+                temp = deck[i] ;
+                deck[i] = deck[j] ;
+                deck[j] = temp ;
+            }
+    }
+
+
+void deal_card(int deck[], int size) //Prints deck to window
+    {
+        int i,card;
+        static int end=0;
+        static int start=0;
+        char suit[4][9]={"Diamonds","Hearts","Clubs","Spades"}; //Suit of the cards in deck
+        char rank[13][6]={"2","3","4","5","6","7","8","9","10","Jack","Queen","King","Ace"}; //ranking of cards
+
+
+        end=start+1;
+
+
+         if (end == 53)
+            {
+                start=0;
+                end=1;
+                shuffle(deck,52);
+                printf("\n\nThe deck ran out of cards and was re-shuffled.\n\n\n");
+            }
+
+
+            for (i=start; i<end; i++) //computes the rank and suit of each card in the deck
+            printf("%s of %s\n",rank[deck[i]%13],suit[deck[i]/13]);
+
+
+        start++;
+    }
